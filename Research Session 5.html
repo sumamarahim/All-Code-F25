@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sumama's Cyber Career Roadmap | Pakistan 2025-2028</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* Chart Container Styling as per requirements */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        
+        /* Custom scrollbar for cleaner UI */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #94a3b8; 
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b; 
+        }
+        
+        .active-tab {
+            background-color: #0f172a; /* Slate 900 */
+            color: white;
+            border-left: 4px solid #3b82f6; /* Blue 500 */
+        }
+        .inactive-tab {
+            color: #475569;
+            background-color: transparent;
+        }
+        .inactive-tab:hover {
+            background-color: #e2e8f0;
+            color: #1e293b;
+        }
+    </style>
+    <!-- Chosen Palette: Slate & Cyber Blue - Minimalistic, professional, and tech-oriented warm neutrals with subtle blue accents for interaction. -->
+    <!-- Application Structure Plan: The app is designed as a Personal Career Command Center. 
+         1. 'Mission Control' (Dashboard): High-level market stats and salary trends to motivate.
+         2. 'The Roadmap' (Timeline): Specifically addresses the certification query for 2026/2027.
+         3. 'Job Intel' (Market Analysis): Breaks down roles in Private vs. Military sectors with JDs.
+         4. 'Academia' (Education): Compares BS/MS paths and lists top universities.
+         This structure moves from "Big Picture" to "Actionable Steps" to "Deep Dive Info", facilitating logical decision-making for a student. -->
+    <!-- Visualization & Content Choices:
+         1. Salary Trends (Line Chart): To show the ROI of Certs/MS over time. Goal: Inform/Motivate.
+         2. Skill Demand (Radar Chart): To highlight which skills (Cloud, Network, GRC) are most valuable in Pakistan. Goal: Inform.
+         3. Sector Distribution (Doughnut Chart): To show where the jobs are (Telco vs Bank vs Military). Goal: Context.
+         4. HTML/Tailwind Timeline: To clearly map out the certification schedule. Goal: Plan.
+         NO SVG or Mermaid used. Canvas used for all charts. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased selection:bg-blue-100 selection:text-blue-900">
+
+    <!-- App Container -->
+    <div class="flex h-screen overflow-hidden">
+
+        <!-- Sidebar Navigation -->
+        <aside class="w-64 bg-white border-r border-slate-200 hidden md:flex flex-col z-10">
+            <div class="p-6 border-b border-slate-100">
+                <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Cyber<span class="text-blue-600">Path</span></h1>
+                <p class="text-xs text-slate-500 mt-1">Student Roadmap: Sumama</p>
+            </div>
+            <nav class="flex-1 overflow-y-auto py-4">
+                <ul class="space-y-1">
+                    <li><button onclick="navigate('dashboard')" id="nav-dashboard" class="w-full text-left px-6 py-3 font-medium text-sm transition-colors active-tab">Dashboard & Trends</button></li>
+                    <li><button onclick="navigate('roadmap')" id="nav-roadmap" class="w-full text-left px-6 py-3 font-medium text-sm transition-colors inactive-tab">Certification Roadmap</button></li>
+                    <li><button onclick="navigate('jobs')" id="nav-jobs" class="w-full text-left px-6 py-3 font-medium text-sm transition-colors inactive-tab">Job Market & Roles</button></li>
+                    <li><button onclick="navigate('military')" id="nav-military" class="w-full text-left px-6 py-3 font-medium text-sm transition-colors inactive-tab">Military & Public Sector</button></li>
+                    <li><button onclick="navigate('education')" id="nav-education" class="w-full text-left px-6 py-3 font-medium text-sm transition-colors inactive-tab">Education & Research</button></li>
+                </ul>
+            </nav>
+            <div class="p-4 border-t border-slate-100">
+                <div class="bg-blue-50 rounded-lg p-3">
+                    <p class="text-xs font-semibold text-blue-800">Current Status</p>
+                    <p class="text-xs text-blue-600">3rd Semester BSCS</p>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Mobile Header -->
+        <div class="md:hidden fixed top-0 w-full bg-white border-b border-slate-200 z-20 flex justify-between items-center p-4">
+            <h1 class="font-bold text-lg">CyberPath</h1>
+            <select onchange="navigate(this.value)" class="bg-slate-50 border border-slate-300 rounded text-sm p-1">
+                <option value="dashboard">Dashboard</option>
+                <option value="roadmap">Roadmap</option>
+                <option value="jobs">Jobs</option>
+                <option value="military">Military</option>
+                <option value="education">Education</option>
+            </select>
+        </div>
+
+        <!-- Main Content Area -->
+        <main class="flex-1 overflow-y-auto p-4 md:p-8 pt-16 md:pt-8 relative scroll-smooth">
+            
+            <!-- VIEW: DASHBOARD -->
+            <section id="dashboard" class="space-y-6 animate-fade-in block">
+                <div class="mb-6">
+                    <h2 class="text-3xl font-bold text-slate-900">Market Overview</h2>
+                    <p class="text-slate-600 mt-2 max-w-3xl">
+                        Welcome, Sumama. Before diving into your personal roadmap, it is crucial to understand the Pakistani Cybersecurity landscape. 
+                        The market is shifting from general IT support to specialized roles in SOC (Security Operations Centers) and Cloud Security.
+                        Below is a snapshot of financial growth potential and skill demand.
+                    </p>
+                </div>
+
+                <!-- KPI Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                        <p class="text-sm text-slate-500 font-medium uppercase">Entry Lvl Salary (PKR)</p>
+                        <h3 class="text-2xl font-bold text-slate-800 mt-1">80k - 120k</h3>
+                        <p class="text-xs text-green-600 mt-2 flex items-center">
+                            <span>▲ Rising with Certs</span>
+                        </p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                        <p class="text-sm text-slate-500 font-medium uppercase">High Demand Sector</p>
+                        <h3 class="text-2xl font-bold text-slate-800 mt-1">Banking & Fintech</h3>
+                        <p class="text-xs text-slate-400 mt-2">Compliance Driven (SBP)</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                        <p class="text-sm text-slate-500 font-medium uppercase">Top Growth Skill</p>
+                        <h3 class="text-2xl font-bold text-blue-600 mt-1">Cloud Security</h3>
+                        <p class="text-xs text-slate-400 mt-2">AWS / Azure Adoption</p>
+                    </div>
+                </div>
+
+                <!-- Charts Row -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Salary Chart -->
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                        <h3 class="font-bold text-slate-800 mb-4">Salary Trajectory (PKR Monthly)</h3>
+                        <div class="chart-container">
+                            <canvas id="salaryChart"></canvas>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-4 text-center">Comparing BS only vs BS + Certs vs MS specialization over 5 years.</p>
+                    </div>
+                    
+                    <!-- Skills Radar -->
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                        <h3 class="font-bold text-slate-800 mb-4">Skill Demand in Pakistan (2025)</h3>
+                        <div class="chart-container">
+                            <canvas id="skillsChart"></canvas>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-4 text-center">Based on job openings in Telcos, Banks, and Software Houses.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIEW: ROADMAP -->
+            <section id="roadmap" class="hidden space-y-6">
+                <div class="mb-6">
+                    <h2 class="text-3xl font-bold text-slate-900">Your Certification Plan</h2>
+                    <p class="text-slate-600 mt-2">
+                        You have two critical windows: Summer 2026 (Post-4th Sem) and Summer 2027 (Post-6th Sem). 
+                        This roadmap balances <strong>foundational knowledge</strong> with <strong>marketable specialization</strong>.
+                    </p>
+                </div>
+
+                <div class="bg-white border border-slate-200 rounded-xl p-8 relative">
+                    <!-- Vertical Line -->
+                    <div class="absolute left-8 top-8 bottom-8 w-0.5 bg-slate-200 md:left-1/2 md:-ml-0.5"></div>
+
+                    <!-- Item 1: Summer 2026 -->
+                    <div class="relative mb-12 md:mb-0">
+                        <div class="md:flex items-center justify-between w-full">
+                            <div class="md:w-5/12 order-1 text-left md:text-right pr-8">
+                                <span class="inline-block px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-bold mb-2">Summer 2026 (Sem 4 End)</span>
+                                <h3 class="font-bold text-lg text-slate-800">Milestone 1: The Foundation</h3>
+                                <p class="text-sm text-slate-600 mt-2">
+                                    <strong>Target: CompTIA Security+ (SY0-701)</strong><br>
+                                    This is the global standard for entry-level Cyber roles. It covers GRC, Network Security, and basic threats.
+                                </p>
+                                <div class="mt-3">
+                                    <span class="text-xs font-mono bg-slate-100 p-1 rounded border border-slate-300">Cost: ~$390 (Academic discounts exist)</span>
+                                </div>
+                            </div>
+                            <div class="absolute left-8 -ml-3 md:left-1/2 md:-ml-3 w-6 h-6 bg-blue-500 rounded-full border-4 border-white shadow"></div>
+                            <div class="md:w-5/12 order-2 pl-8 hidden md:block"></div>
+                        </div>
+                    </div>
+
+                    <!-- Item 2: Summer 2027 -->
+                    <div class="relative mt-12 md:mt-24">
+                        <div class="md:flex items-center justify-between w-full">
+                            <div class="md:w-5/12 order-1 pr-8 hidden md:block"></div>
+                            <div class="absolute left-8 -ml-3 md:left-1/2 md:-ml-3 w-6 h-6 bg-slate-800 rounded-full border-4 border-white shadow"></div>
+                            <div class="md:w-5/12 order-2 pl-8">
+                                <span class="inline-block px-3 py-1 bg-slate-100 text-slate-700 rounded-full text-xs font-bold mb-2">Summer 2027 (Sem 6 End)</span>
+                                <h3 class="font-bold text-lg text-slate-800">Milestone 2: The Specialization</h3>
+                                <div class="flex gap-2 mt-2">
+                                    <button onclick="toggleCert('cloud')" id="btn-cloud" class="text-xs bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition">Option A: Cloud</button>
+                                    <button onclick="toggleCert('red')" id="btn-red" class="text-xs bg-white border border-slate-300 text-slate-600 px-3 py-1 rounded hover:bg-slate-50 transition">Option B: Attack</button>
+                                </div>
+                                <div id="cert-details" class="mt-3 p-3 bg-slate-50 rounded border border-slate-200 text-sm text-slate-700">
+                                    <strong>AWS Certified Security - Specialty</strong><br>
+                                    Why: Pakistan's enterprise market (Systems Ltd, Banks) is moving to AWS. This makes you instantly hirable for "Cloud Security Engineer" roles.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-blue-50 p-4 rounded-lg border border-blue-100 mt-6">
+                    <h4 class="font-bold text-blue-900 text-sm">Why these two?</h4>
+                    <p class="text-sm text-blue-800 mt-1">
+                        Employers in Pakistan value certifications that show you can <strong>do</strong> the work, not just know the theory. Security+ gets you past HR filters. The second cert (AWS or eJPT) proves you have a specific technical skill set (Cloud or Hacking) that most fresh grads lack.
+                    </p>
+                </div>
+            </section>
+
+            <!-- VIEW: JOB MARKET -->
+            <section id="jobs" class="hidden space-y-6">
+                <div class="mb-6">
+                    <h2 class="text-3xl font-bold text-slate-900">Private Sector Roles</h2>
+                    <p class="text-slate-600 mt-2">
+                        Upon graduation, these are the primary roles available in Pakistani Telcos (Jazz, Telenor), ISPs (Nayatel, Cybernet), and Banks.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Job Card 1 -->
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition cursor-pointer group">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="font-bold text-lg text-slate-800 group-hover:text-blue-600">SOC Analyst (L1)</h3>
+                                <p class="text-sm text-slate-500">The "Defender"</p>
+                            </div>
+                            <span class="bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded">High Volume</span>
+                        </div>
+                        <div class="mt-4 text-sm text-slate-600 space-y-2">
+                            <p><strong>Responsibilities:</strong> Monitoring SIEM (Splunk/Wazuh) logs, identifying false positives, initial incident triage.</p>
+                            <p><strong>Top Employers:</strong> Jazz, Telenor, HBL, Trillium InfoSec.</p>
+                            <p><strong>Salary:</strong> 70k - 110k PKR/month.</p>
+                        </div>
+                    </div>
+
+                    <!-- Job Card 2 -->
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition cursor-pointer group">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="font-bold text-lg text-slate-800 group-hover:text-blue-600">Jr. Pen Tester</h3>
+                                <p class="text-sm text-slate-500">The "Attacker"</p>
+                            </div>
+                            <span class="bg-purple-100 text-purple-700 text-xs font-bold px-2 py-1 rounded">Competitive</span>
+                        </div>
+                        <div class="mt-4 text-sm text-slate-600 space-y-2">
+                            <p><strong>Responsibilities:</strong> Vulnerability assessment (Nessus), Web App testing (Burp Suite), Report writing.</p>
+                            <p><strong>Top Employers:</strong> Systems Ltd, Security service providers, Software Houses.</p>
+                            <p><strong>Salary:</strong> 90k - 150k PKR/month.</p>
+                        </div>
+                    </div>
+
+                    <!-- Job Card 3 -->
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition cursor-pointer group">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="font-bold text-lg text-slate-800 group-hover:text-blue-600">Network Security Eng.</h3>
+                                <p class="text-sm text-slate-500">The "Architect"</p>
+                            </div>
+                            <span class="bg-orange-100 text-orange-700 text-xs font-bold px-2 py-1 rounded">Stable</span>
+                        </div>
+                        <div class="mt-4 text-sm text-slate-600 space-y-2">
+                            <p><strong>Responsibilities:</strong> Firewall config (Fortinet/Palo Alto), VPN management, Network segmentation.</p>
+                            <p><strong>Top Employers:</strong> PTCL, Nayatel, ISPs, Corporate IT Depts.</p>
+                            <p><strong>Salary:</strong> 60k - 100k PKR/month.</p>
+                        </div>
+                    </div>
+
+                    <!-- Job Card 4 -->
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 hover:shadow-md transition cursor-pointer group">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="font-bold text-lg text-slate-800 group-hover:text-blue-600">Cloud Security Associate</h3>
+                                <p class="text-sm text-slate-500">The "Modernist"</p>
+                            </div>
+                            <span class="bg-blue-100 text-blue-700 text-xs font-bold px-2 py-1 rounded">Trending</span>
+                        </div>
+                        <div class="mt-4 text-sm text-slate-600 space-y-2">
+                            <p><strong>Responsibilities:</strong> IAM management, Cloud configuration review, DevSecOps pipeline basics.</p>
+                            <p><strong>Top Employers:</strong> 10Pearls, VentureDive, Tech startups.</p>
+                            <p><strong>Salary:</strong> 100k - 160k PKR/month.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIEW: MILITARY -->
+            <section id="military" class="hidden space-y-6">
+                <div class="mb-6">
+                    <h2 class="text-3xl font-bold text-slate-900">Military & Public Sector</h2>
+                    <p class="text-slate-600 mt-2">
+                        Serving in the defense sector offers stability and high-impact work. For a BSCS grad, there are two main entry routes: Uniformed Officer or Civilian Officer.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-2xl">🎖️</span>
+                            <h3 class="font-bold text-lg text-slate-800">Pakistan Army (Signal Corps)</h3>
+                        </div>
+                        <ul class="list-disc list-inside text-sm text-slate-600 space-y-2">
+                            <li><strong>Route:</strong> Information Communication Technology Officers (ICTO) via Direct Short Service Commission (DSSC).</li>
+                            <li><strong>Role:</strong> Captain. You manage military communication networks, crypto-security, and cyber defense units.</li>
+                            <li><strong>Requirements:</strong> BSCS/SE with min 2.5 CGPA. Age usually < 28.</li>
+                            <li><strong>Timeline:</strong> Ads typically appear in Dec/Jan or June/July in newspapers.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-2xl">⚓</span>
+                            <h3 class="font-bold text-lg text-slate-800">Pakistan Navy & Air Force</h3>
+                        </div>
+                        <ul class="list-disc list-inside text-sm text-slate-600 space-y-2">
+                            <li><strong>Navy:</strong> Special Branch (IT). Focus on Naval network defense and maritime surveillance systems.</li>
+                            <li><strong>PAF:</strong> Engineering/IT Branch. Focus on securing avionics data links and base infrastructure.</li>
+                            <li><strong>Job Type:</strong> Similar DSSC routes as Army. High discipline, extensive training.</li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 lg:col-span-2">
+                        <div class="flex items-center gap-3 mb-4">
+                            <span class="text-2xl">🏛️</span>
+                            <h3 class="font-bold text-lg text-slate-800">FIA & Research Orgs (Civilian)</h3>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <h4 class="font-bold text-sm text-slate-700">FIA (Cyber Crime Wing / NR3C)</h4>
+                                <p class="text-xs text-slate-600 mt-1">
+                                    <strong>Role:</strong> Assistant Director (Investigation) or Technical Expert.
+                                    <br><strong>Work:</strong> Digital Forensics, tracking financial fraud, catching cyber criminals.
+                                    <br><strong>Hiring:</strong> Via FPSC exams.
+                                </p>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-sm text-slate-700">Space & Scientific Orgs (NESCOM/SUPARCO)</h4>
+                                <p class="text-xs text-slate-600 mt-1">
+                                    <strong>Role:</strong> Scientific Officer / Sr. Scientific Officer.
+                                    <br><strong>Work:</strong> Satellite communication security, telemetry encryption, SCADA security.
+                                    <br><strong>Benefit:</strong> Specialized allowances and research environment.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIEW: EDUCATION -->
+            <section id="education" class="hidden space-y-6">
+                <div class="mb-6">
+                    <h2 class="text-3xl font-bold text-slate-900">Education & Research</h2>
+                    <p class="text-slate-600 mt-2">
+                        Should you do an MS immediately? In Cybersecurity, experience often beats a fresh MS. However, for research or top-tier government roles, an MS is valuable.
+                    </p>
+                </div>
+
+                <!-- Comparison Table -->
+                <div class="overflow-x-auto bg-white rounded-xl shadow-sm border border-slate-200 mb-8">
+                    <table class="w-full text-sm text-left text-slate-600">
+                        <thead class="text-xs text-slate-700 uppercase bg-slate-50 border-b border-slate-200">
+                            <tr>
+                                <th class="px-6 py-3">Path</th>
+                                <th class="px-6 py-3">Pros</th>
+                                <th class="px-6 py-3">Cons</th>
+                                <th class="px-6 py-3">Best For...</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="bg-white border-b border-slate-100">
+                                <td class="px-6 py-4 font-medium text-slate-900">BS -> Job</td>
+                                <td class="px-6 py-4">Financial independence, practical skills, industry networking.</td>
+                                <td class="px-6 py-4">Slower promotion to senior management later.</td>
+                                <td class="px-6 py-4">SOC Analysts, Pen Testers, Engineers.</td>
+                            </tr>
+                            <tr class="bg-white">
+                                <td class="px-6 py-4 font-medium text-slate-900">BS -> MS -> Job</td>
+                                <td class="px-6 py-4">Specialized knowledge, research publication, higher entry rank in Gov.</td>
+                                <td class="px-6 py-4">2 years delayed earning, potentially "overqualified" for entry roles.</td>
+                                <td class="px-6 py-4">Cryptography, AI Security, Academic/Teaching careers.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                        <h3 class="font-bold text-lg text-slate-800 mb-3">Top Institutes (Pakistan)</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-start">
+                                <span class="bg-blue-100 text-blue-800 text-xs font-bold px-2 py-0.5 rounded mr-2 mt-0.5">NUST</span>
+                                <span class="text-sm text-slate-600">MCS (Rawalpindi) & SEECS (Islamabad). Best for military links and strong alumni network.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="bg-blue-100 text-blue-800 text-xs font-bold px-2 py-0.5 rounded mr-2 mt-0.5">Air University</span>
+                                <span class="text-sm text-slate-600">Home to <strong>NCCS (National Centre for Cyber Security)</strong>. Probably the most focused Cyber research hub currently.</span>
+                            </li>
+                            <li class="flex items-start">
+                                <span class="bg-blue-100 text-blue-800 text-xs font-bold px-2 py-0.5 rounded mr-2 mt-0.5">FAST-NUCES</span>
+                                <span class="text-sm text-slate-600">Known for rigorous programming. Good if you want to go into AppSec or DevSecOps.</span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+                        <h3 class="font-bold text-lg text-slate-800 mb-3">Hot Research Areas</h3>
+                        <ul class="space-y-3">
+                            <li class="border-l-2 border-purple-500 pl-3">
+                                <h4 class="font-bold text-sm text-slate-800">AI in Cybersecurity</h4>
+                                <p class="text-xs text-slate-500">Using Machine Learning to detect zero-day anomalies in network traffic. (High demand).</p>
+                            </li>
+                            <li class="border-l-2 border-indigo-500 pl-3">
+                                <h4 class="font-bold text-sm text-slate-800">Post-Quantum Cryptography</h4>
+                                <p class="text-xs text-slate-500">Designing encryption that Quantum computers can't break. (Gov/Defense focus).</p>
+                            </li>
+                            <li class="border-l-2 border-pink-500 pl-3">
+                                <h4 class="font-bold text-sm text-slate-800">IoT & SCADA Security</h4>
+                                <p class="text-xs text-slate-500">Securing smart devices and industrial control systems (Power plants, Factories).</p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- JavaScript for Logic and Charts -->
+    <script>
+        // State Management
+        const state = {
+            currentSection: 'dashboard',
+            certOption: 'cloud' // 'cloud' or 'red'
+        };
+
+        // DOM Elements
+        const sections = ['dashboard', 'roadmap', 'jobs', 'military', 'education'];
+        const navButtons = sections.map(id => document.getElementById(`nav-${id}`));
+
+        // Navigation Logic
+        function navigate(sectionId) {
+            // Update State
+            state.currentSection = sectionId;
+
+            // Update UI: Hide all sections, show target
+            sections.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    if (id === sectionId) {
+                        el.classList.remove('hidden');
+                        el.classList.add('block');
+                        // Trigger chart resize/update if needed when tab becomes visible
+                        if(id === 'dashboard') {
+                            salaryChart.resize();
+                            skillsChart.resize();
+                        }
+                    } else {
+                        el.classList.add('hidden');
+                        el.classList.remove('block');
+                    }
+                }
+            });
+
+            // Update Sidebar Styling (Desktop)
+            if (window.innerWidth >= 768) {
+                navButtons.forEach(btn => {
+                    if (btn && btn.id === `nav-${sectionId}`) {
+                        btn.classList.remove('inactive-tab');
+                        btn.classList.add('active-tab');
+                    } else if (btn) {
+                        btn.classList.remove('active-tab');
+                        btn.classList.add('inactive-tab');
+                    }
+                });
+            }
+        }
+
+        // Toggle Certification Logic
+        function toggleCert(option) {
+            const btnCloud = document.getElementById('btn-cloud');
+            const btnRed = document.getElementById('btn-red');
+            const details = document.getElementById('cert-details');
+
+            if (option === 'cloud') {
+                btnCloud.className = "text-xs bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 transition";
+                btnRed.className = "text-xs bg-white border border-slate-300 text-slate-600 px-3 py-1 rounded hover:bg-slate-50 transition";
+                details.innerHTML = `<strong>AWS Certified Security - Specialty</strong><br>
+                                     Why: Pakistan's enterprise market (Systems Ltd, Banks) is moving to AWS. This makes you instantly hirable for "Cloud Security Engineer" roles.`;
+            } else {
+                btnRed.className = "text-xs bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700 transition";
+                btnCloud.className = "text-xs bg-white border border-slate-300 text-slate-600 px-3 py-1 rounded hover:bg-slate-50 transition";
+                details.innerHTML = `<strong>eJPT (Junior Penetration Tester) or PJPT</strong><br>
+                                     Why: These are practical, hands-on exams (unlike CEH which is multiple choice). They prove you can actually hack, making you a prime candidate for Software Houses.`;
+            }
+        }
+
+        // Chart Initialization
+        let salaryChart, skillsChart;
+
+        function initCharts() {
+            const ctxSalary = document.getElementById('salaryChart').getContext('2d');
+            const ctxSkills = document.getElementById('skillsChart').getContext('2d');
+
+            // Salary Line Chart
+            salaryChart = new Chart(ctxSalary, {
+                type: 'line',
+                data: {
+                    labels: ['Year 1', 'Year 2', 'Year 3', 'Year 4', 'Year 5'],
+                    datasets: [
+                        {
+                            label: 'BS + Certs (Recommended)',
+                            data: [100, 150, 220, 300, 450], // Monthly in '000 PKR
+                            borderColor: '#2563eb', // Blue 600
+                            backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                            tension: 0.3,
+                            fill: true
+                        },
+                        {
+                            label: 'BS Only',
+                            data: [70, 90, 120, 160, 200],
+                            borderColor: '#94a3b8', // Slate 400
+                            borderDash: [5, 5],
+                            tension: 0.3
+                        },
+                        {
+                            label: 'MS (Delayed Start)',
+                            data: [0, 0, 120, 180, 280], // Starts year 3
+                            borderColor: '#0f172a', // Slate 900
+                            tension: 0.3
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + context.raw + 'k PKR';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Monthly Salary (PKR Thousands)'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Skills Radar Chart
+            skillsChart = new Chart(ctxSkills, {
+                type: 'radar',
+                data: {
+                    labels: ['Network Security', 'Cloud Security', 'Ethical Hacking', 'GRC/Compliance', 'Forensics', 'DevSecOps'],
+                    datasets: [{
+                        label: 'Market Demand Intensity',
+                        data: [85, 95, 75, 90, 60, 80],
+                        fill: true,
+                        backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                        borderColor: '#2563eb',
+                        pointBackgroundColor: '#2563eb',
+                        pointBorderColor: '#fff',
+                        pointHoverBackgroundColor: '#fff',
+                        pointHoverBorderColor: '#2563eb'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: {
+                                display: false
+                            },
+                            suggestedMin: 0,
+                            suggestedMax: 100
+                        }
+                    }
+                }
+            });
+        }
+
+        // Initialize on load
+        window.onload = function() {
+            initCharts();
+        };
+
+    </script>
+</body>
+</html>

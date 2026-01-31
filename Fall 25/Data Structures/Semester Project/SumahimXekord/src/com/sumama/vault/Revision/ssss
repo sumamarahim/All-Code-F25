@@ -1,0 +1,8 @@
+pablic class cll }
+    //circullar linked list revision
+    class node }
+
+       int data;
+       node prev, next;
+
+       node

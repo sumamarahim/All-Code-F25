@@ -1,0 +1,351 @@
+#RSA Implementation
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Nov 22 14:22:23 2024
+
+@author: Admin
+"""
+import random
+# Function to check if a number is prime
+def isprime(num):
+    if num < 2:
+        return False
+    for i in range(2, int(num**0.5) + 1):
+        if num % i == 0:
+            return False
+    return True
+
+# Function to find GCD
+def gcd(a, b):
+    while b != 0:
+        a, b = b, a % b
+    return a
+
+# Function to find modular inverse
+def mod_inverse(e, phi):
+    for d in range(1, phi):
+        if (e * d) % phi == 1:
+            return d
+    return None
+
+# Function to generate keys
+def generate_keys():
+    # Step 1: Choose two random prime numbers
+    primes = [i for i in range(100, 200) if isprime(i)]
+    p = random.choice(primes)
+    q = random.choice([i for i in primes if i != p])
+    # Step 2: Calculate n and phi
+    n = p * q
+    phi = (p - 1) * (q - 1)
+    # Step 3: Choose e such that 1 < e < phi and gcd(e, phi) = 1
+    e = random.choice([i for i in range(2, phi) if gcd(i, phi) == 1])
+
+    # Step 4: Calculate d, the modular inverse of e
+    d = mod_inverse(e, phi)
+    return (e, n), (d, n)
+
+# RSA Encryption
+def encrypt(public_key, plaintext):
+    e, n = public_key
+    ciphertext = [pow(ord(char), e, n) for char in plaintext]
+    return ciphertext
+
+# RSA Decryption
+def decrypt(private_key, ciphertext):
+    d, n = private_key
+    plaintext = ''.join([chr(pow(char, d, n)) for char in ciphertext])
+    return plaintext
+
+# Main
+if __name__ == "__main__":
+    public_key, private_key = generate_keys()
+    print("Public Key:", public_key)
+    print("Private Key:", private_key)
+    message = input("Enter a message to encrypt: ")
+    encrypted_message = encrypt(public_key, message)
+    print("Encrypted Message:", encrypted_message)
+    decrypted_message = decrypt(private_key, encrypted_message)
+    print("Decrypted Message:", decrypted_message)
+#%%
+# ================================================================
+# RSA Implementation for Teaching Purposes (Easy to Understand)
+# By: ChatGPT 
+# ================================================================
+
+import random
+import math
+
+# ---------------------------------------------------------------
+# Miller-Rabin Primality Test
+# ---------------------------------------------------------------
+def is_prime(n, k=8):
+    """Return True if n is probably prime."""
+    if n <= 1:
+        return False
+    if n <= 3:
+        return True
+    if n % 2 == 0:
+        return False
+
+    # Write n - 1 as 2^r * d
+    r = 0
+    d = n - 1
+    while d % 2 == 0:
+        d //= 2
+        r += 1
+
+    # Test k rounds
+    for _ in range(k):
+        a = random.randrange(2, n - 1)
+        x = pow(a, d, n)
+
+        if x == 1 or x == n - 1:
+            continue
+
+        composite = True
+        for _ in range(r - 1):
+            x = pow(x, 2, n)
+            if x == n - 1:
+                composite = False
+                break
+
+        if composite:
+            return False
+
+    return True
+
+# ---------------------------------------------------------------
+# Prime number generation
+# ---------------------------------------------------------------
+def generate_prime_candidate(bits):
+    """Generate an odd integer of the correct bit size."""
+    candidate = random.getrandbits(bits)
+    candidate |= (1 << (bits - 1)) | 1   # ensure MSB=1 and odd
+    return candidate
+
+def generate_prime(bits):
+    """Generate a prime of approx. 'bits' bits."""
+    while True:
+        p = generate_prime_candidate(bits)
+        if is_prime(p):
+            return p
+
+# ---------------------------------------------------------------
+# Extended Euclidean Algorithm
+# ---------------------------------------------------------------
+def egcd(a, b):
+    if a == 0:
+        return (b, 0, 1)
+    g, y, x = egcd(b % a, a)
+    return (g, x - (b // a) * y, y)
+
+def modinv(a, m):
+    """Return modular inverse of a mod m."""
+    g, x, _ = egcd(a, m)
+    if g != 1:
+        raise ValueError("Modular inverse does not exist.")
+    return x % m
+
+# ---------------------------------------------------------------
+# RSA Key Generation
+# ---------------------------------------------------------------
+def generate_keypair(bits=16):
+    print(f"Generating {bits}-bit primes...")
+    p = generate_prime(bits)
+    q = generate_prime(bits)
+    while q == p:
+        q = generate_prime(bits)
+
+    print("p =", p)
+    print("q =", q)
+
+    n = p * q
+    phi = (p - 1) * (q - 1)
+
+    # choose public key exponent
+    e = 65537
+    if math.gcd(e, phi) != 1:
+        e = 3
+        while math.gcd(e, phi) != 1:
+            e += 2
+
+    print("n  =", n)
+    print("φ(n) =", phi)
+    print("e =", e)
+
+    d = modinv(e, phi)
+    print("d =", d)
+
+    return (e, n), (d, n)
+
+# ---------------------------------------------------------------
+# Encoding / Decoding
+# ---------------------------------------------------------------
+def encode_message(msg: str) -> int:
+    return int.from_bytes(msg.encode(), "big")
+
+def decode_message(m_int: int) -> str:
+    length = (m_int.bit_length() + 7) // 8
+    return m_int.to_bytes(length, "big").decode()
+
+# ---------------------------------------------------------------
+# Message Chunking
+# ---------------------------------------------------------------
+def max_message_bytes_for_n(n: int) -> int:
+    return max(1, (n.bit_length() - 1) // 8)
+
+# ---------------------------------------------------------------
+# Block encryption/decryption
+# ---------------------------------------------------------------
+def encrypt_block(public_key, m_int: int) -> int:
+    e, n = public_key
+    if m_int >= n:
+        raise ValueError("Block too large for modulus.")
+    return pow(m_int, e, n)
+
+def decrypt_block(private_key, c_int: int) -> int:
+    d, n = private_key
+    return pow(c_int, d, n)
+
+# ---------------------------------------------------------------
+# High level encryption/decryption (with chunking)
+# ---------------------------------------------------------------
+def encrypt_message(public_key, plaintext: str):
+    e, n = public_key
+    max_bytes = max_message_bytes_for_n(n)
+    print(f"Chunk size = {max_bytes} bytes")
+
+    data = plaintext.encode()
+    chunks = [data[i:i+max_bytes] for i in range(0, len(data), max_bytes)]
+    ciphertext = []
+
+    for chunk in chunks:
+        m = int.from_bytes(chunk, "big")
+        c = encrypt_block(public_key, m)
+        ciphertext.append(c)
+
+    return ciphertext
+
+def decrypt_message(private_key, ciphertext_list):
+    decoded = b""
+
+    for c in ciphertext_list:
+        m = decrypt_block(private_key, c)
+        length = (m.bit_length() + 7) // 8
+        decoded += m.to_bytes(length, "big")
+
+    return decoded.decode()
+
+# ---------------------------------------------------------------
+# Demo
+# ---------------------------------------------------------------
+if __name__ == "__main__":
+    pub, priv = generate_keypair(bits=16)  # small bits for teaching
+
+    print("\nPublic Key :", pub)
+    print("Private Key:", priv)
+
+    message = "HELLO WORLD! This is RSA."
+
+    print("\nOriginal message:", message)
+
+    encrypted = encrypt_message(pub, message)
+    print("\nEncrypted blocks:")
+    print(encrypted)
+
+    decrypted = decrypt_message(priv, encrypted)
+    print("\nDecrypted message:", decrypted)
+
+    print("\nSuccess?", decrypted == message)
+
+____________________________________________________________________________
+# Digital Sign implementation
+
+import random
+from hashlib import sha256
+
+# Helper function to compute modular inverse
+def modinv(a, m):
+    m0, x0, x1 = m, 0, 1
+    if m == 1:
+        return 0
+    while a > 1:
+        q = a // m
+        m, a = a % m, m
+        x0, x1 = x1 - q * x0, x0
+    if x1 < 0:
+        x1 += m0
+    return x1
+
+# Key Generation (ElGamal) - Using small primes for fast execution
+def generate_keys():
+    # Choose a small prime p and generator g (we're using small primes here for demonstration)
+    p = 7919  # A small prime for quick testing
+    g = 2  # Simple generator
+    
+    # Private key: x (chosen randomly)
+    x = random.randint(2, p - 2)
+    
+    # Public key: y = g^x mod p
+    y = pow(g, x, p)
+    
+    return (p, g, x), (p, g, y)
+
+# Digital Signature Generation
+def sign_message(message, private_key):
+    p, g, x = private_key
+    
+    # Step 1: Hash the message
+    H_m = int(sha256(message.encode()).hexdigest(), 16)  # Hash the message to an integer
+    
+    # Step 2: Choose random k (using small values for speed)
+    k = random.randint(2, p - 2)
+    
+    # Step 3: Compute r = g^k mod p
+    r = pow(g, k, p)
+    
+    # Step 4: Compute s = k^-1 * (H(m) - x * r) mod (p-1)
+    k_inv = modinv(k, p - 1)
+    s = (k_inv * (H_m - x * r)) % (p - 1)
+    
+    return r, s
+
+# Digital Signature Verification
+def verify_signature(message, signature, public_key):
+    r, s = signature
+    p, g, y = public_key
+    
+    # Step 1: Check the range of r and s
+    if not (0 < r < p) or not (0 < s < p):
+        return False
+    
+    # Step 2: Hash the message
+    H_m = int(sha256(message.encode()).hexdigest(), 16)
+    
+    # Step 3: Compute v1 = g^H(m) mod p
+    v1 = pow(g, H_m, p)
+    
+    # Step 4: Compute v2 = y^r * r^s mod p
+    v2 = (pow(y, r, p) * pow(r, s, p)) % p
+    
+    # Step 5: Compare v1 and v2
+    return v1 == v2
+
+# Example Usage
+if __name__ == "__main__":
+    # Key generation
+    private_key, public_key = generate_keys()
+    
+    # Print keys for reference
+    print(f"Private Key: {private_key}")
+    print(f"Public Key: {public_key}")
+    
+    # Signing a message
+    #message = "This is a quick test message"
+    message = input("Enter the message: ")
+    signature = sign_message(message, private_key)
+    print(f"Signature: {signature}")
+    
+    # Verifying the signature
+    is_valid = verify_signature(message, signature, public_key)
+    print(f"Signature is valid: {is_valid}")
