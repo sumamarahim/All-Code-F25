@@ -27,7 +27,6 @@ class Inventory {
     }
 }
 // list
-
 class DataSet {
 
     Inventory head = null;
