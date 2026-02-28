@@ -71,7 +71,7 @@ public class Main {
         // ll.search("app1");
         ll.insert("password1", "app1");
         ll.insert("password2", "app2");
-        // ll.display();
+        ll.display();
 
     }
 }

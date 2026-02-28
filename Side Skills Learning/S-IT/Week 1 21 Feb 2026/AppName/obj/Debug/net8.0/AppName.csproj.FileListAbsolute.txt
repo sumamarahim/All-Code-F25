@@ -1,0 +1,15 @@
+/home/essaar/Documents/Side Skills Learning/S-IT/Week 1 21 Feb 2026/AppName/bin/Debug/net8.0/AppName
+/home/essaar/Documents/Side Skills Learning/S-IT/Week 1 21 Feb 2026/AppName/bin/Debug/net8.0/AppName.deps.json
+/home/essaar/Documents/Side Skills Learning/S-IT/Week 1 21 Feb 2026/AppName/bin/Debug/net8.0/AppName.runtimeconfig.json
+/home/essaar/Documents/Side Skills Learning/S-IT/Week 1 21 Feb 2026/AppName/bin/Debug/net8.0/AppName.dll
+/home/essaar/Documents/Side Skills Learning/S-IT/Week 1 21 Feb 2026/AppName/bin/Debug/net8.0/AppName.pdb
+/home/essaar/Documents/Side Skills Learning/S-IT/Week 1 21 Feb 2026/AppName/obj/Debug/net8.0/AppName.GeneratedMSBuildEditorConfig.editorconfig
+/home/essaar/Documents/Side Skills Learning/S-IT/Week 1 21 Feb 2026/AppName/obj/Debug/net8.0/AppName.AssemblyInfoInputs.cache
+/home/essaar/Documents/Side Skills Learning/S-IT/Week 1 21 Feb 2026/AppName/obj/Debug/net8.0/AppName.AssemblyInfo.cs
+/home/essaar/Documents/Side Skills Learning/S-IT/Week 1 21 Feb 2026/AppName/obj/Debug/net8.0/AppName.csproj.CoreCompileInputs.cache
+/home/essaar/Documents/Side Skills Learning/S-IT/Week 1 21 Feb 2026/AppName/obj/Debug/net8.0/AppName.sourcelink.json
+/home/essaar/Documents/Side Skills Learning/S-IT/Week 1 21 Feb 2026/AppName/obj/Debug/net8.0/AppName.dll
+/home/essaar/Documents/Side Skills Learning/S-IT/Week 1 21 Feb 2026/AppName/obj/Debug/net8.0/refint/AppName.dll
+/home/essaar/Documents/Side Skills Learning/S-IT/Week 1 21 Feb 2026/AppName/obj/Debug/net8.0/AppName.pdb
+/home/essaar/Documents/Side Skills Learning/S-IT/Week 1 21 Feb 2026/AppName/obj/Debug/net8.0/AppName.genruntimeconfig.cache
+/home/essaar/Documents/Side Skills Learning/S-IT/Week 1 21 Feb 2026/AppName/obj/Debug/net8.0/ref/AppName.dll
