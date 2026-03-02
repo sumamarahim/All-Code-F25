@@ -1,4 +1,10 @@
-﻿// using System;
+﻿/**
+Name: Sumama Rahim
+Reg# F24BSCS039
+Date: 02/27/2026
+**/
+
+// using System;
 
 // Week 01: Input (Strings and Numbers) and Output in C#
 namespace Week01
@@ -33,7 +39,7 @@ namespace Week01
         + "\nStudent Class: " + stdClass
         + "\nObtained Marks: " + obtMarks
         + "\nPercentage: " + percentage);
-        
+          
     }
   }
 }
